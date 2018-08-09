@@ -70,7 +70,8 @@ def mmd(source, target, feature):
 
 # In[7]:
 
-def multi_loss(source_list, target, mtl_split_dict, value_list):
+def multi_loss(source_list, target, feature_list, value_list):
+    mtl_split_dict = covarite_loss(source_list, target, feature_list, value_list)
     alpha=1
     total_sample_num = 0
     total_label=list()
@@ -102,8 +103,6 @@ def multi_loss(source_list, target, mtl_split_dict, value_list):
     return feature_mtl, value_mtl
     
 
-
-# In[ ]:
 
 
 
