@@ -18,21 +18,19 @@ if __name__=='__main__':
     targetID = 'xxxx' #specifiy the target domain  ID
     
     # parametres in random forests
-    n_folds=5
-    max_depth=15
-    min_size=1
-    ratio=1.0
+    n_folds = 10
+    max_depth = 15
+    min_size = 1
+    ratio = 1.0
    
-    n_features=15
-    n_trees=10
+    n_features = 35
+    n_trees = 100
     
     #cross validation
     folds=spiltDataSet(dataSet,n_folds)
     for fold in folds:
         train_set=folds[:]  
-        #print len(folds)
         train_set=sum(train_set,[]) 
-        #print len(train_set)
         test_set=[]
         for row in fold:
             row_copy=list(row)
@@ -48,6 +46,6 @@ if __name__=='__main__':
         predict_values = trans.transfer_forest_predict(transfer_forest, test_set)
         
         #compute error
-        error = rf.accuracy(predict_values,actual)
+        error = rf.accuracy(predict_values, actual)
         
 
