@@ -7,11 +7,18 @@ from math import sqrt
 
 def loadCSV(filename):
     dataSet = []
+    i = 0 
+    feature_list = []
     with open(filename, 'r') as file:
         csvReader = csv.reader(file)
         for line in csvReader:
-            dataSet.append(line)
-    return dataSet
+            if i > 0:
+                dataSet.append(line)
+            else:
+                for f in line:
+                    feature_list.append(f)
+            i += 1
+    return dataSet, feature_list
 
 
 def column_to_float(dataSet):
@@ -217,6 +224,7 @@ def accuracy(predict_values, actual, is_classification=False):
             correct += error
         score = np.median(correct)
     return score
+
             
         
 
