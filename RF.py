@@ -53,7 +53,7 @@ def data_spilt(dataSet, index, value):
     return left, right
 	
 def spilt_loss(left, right, class_values, is_classification=False):
-    loss=0.0
+    loss = 0.0
     if is_classification == True:
         for class_value in class_values:
             left_size = len(left)
@@ -69,12 +69,12 @@ def spilt_loss(left, right, class_values, is_classification=False):
         sub_right = list(row[-1] for row in right)
         node_sum = sum(sub_left)+sum(sub_right)
         averge = node_sum /(len(left)+len(right))
-        node=list()
+        node = list()
         node.append(left)
         node.append(right)
         
         for child in node:
-            child_size=len(child)
+            child_size = len(child)
             if size == 0:
                 continue
             child_label = list(record[-1] for record in child)
@@ -126,7 +126,7 @@ def get_best_spilt_candidate(dataSet, n_features):
    
     return b_loss_dict
     
-#决定输出标签
+
 def decide_label(data):
     output=[row[-1] for row in data]
     return max(set(output), key = output.count)
