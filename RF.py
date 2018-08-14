@@ -79,7 +79,7 @@ def spilt_loss(left, right, class_values=None, is_classification=False):
                 continue
             child_label = list(record[-1] for record in child)
             for label in group_label:
-                reg += (label-average)^2
+                reg += (label-average) ** 2
             reg = float(reg) / size
             reg = size * reg / number_node
             loss += reg
