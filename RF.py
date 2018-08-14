@@ -52,7 +52,7 @@ def data_spilt(dataSet, index, value):
             right.append(row)
     return left, right
 	
-def spilt_loss(left, right, class_values, is_classification=False):
+def spilt_loss(left, right, class_values=None, is_classification=False):
     loss = 0.0
     if is_classification == True:
         for class_value in class_values:
