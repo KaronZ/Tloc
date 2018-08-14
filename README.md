@@ -1,11 +1,17 @@
 # Tloc
 A transfer learning-based random forest regression model developed on Python 2.7
 
-## Packages
-numpy <br>
-pandas <br>
 
 ## Usage
+### Library
+to run this project , the following module is required:
+
+1. python-dev
+2. build-essential
+3. python-pip
+
+then use `pip install -r requirements.txt` to install python library
+
 ### Data format
 |BS_ID|feature_1|feature_2|....|label|
 |:---|:---|:---|:---|:---|
@@ -15,7 +21,6 @@ pandas <br>
 The first column is the domain IDs of the data, and the last column is the ground truth of the data. <br>
 You must ensure that source data and target data are in a data file.
 
-### Train a transfer forest regression model
-Download Tloc package in your working path. <br>
+### Notice--train a transfer forest
 Import **RF** and **transferForest** modules in your code (See details in run_Example.py). <br>
 Specify the target domian ID when initializing. <br>
