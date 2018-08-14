@@ -13,7 +13,7 @@ import transferForest as trans
 
 if __name__=='__main__':
     
-    dataSet , feature_name = rf.loadCSV('/xx/xx.csv') #your file path, the file consists of source domain data and target domian data
+    dataSet, feature_name = rf.loadCSV('/xx/xx.csv') #your file path, the file consists of source domain data and target domian data
     rf.column_to_float(dataSet)
     targetID = 'xxxx' #specifiy the target domain  ID
     
