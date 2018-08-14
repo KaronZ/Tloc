@@ -15,21 +15,21 @@ import STRUT as strut
 
 
 def weight_loss(w_m, w_r, target, feature_mtl, value_mtl, value_str):
-	left_m, right_m = rf.data_spilt(target, feature_mtl, value_mtl)
+    left_m, right_m = rf.data_spilt(target, feature_mtl, value_mtl)
     loss_m = rf.spilt_loss(left,right)
 	
-	left_r, right_r = rf.data_spilt(target, feature_mtl, value_str)
+    left_r, right_r = rf.data_spilt(target, feature_mtl, value_str)
     loss_r = rf.spilt_loss(left,right)
 	
-	beta = 0.8
+    beta = 0.8
 	
-	w_m_t = w_m * (beta ** loss_m)
-	w_r_t = w_m * (beta ** loss_r)
+    w_m_t = w_m * (beta ** loss_m)
+    w_r_t = w_m * (beta ** loss_r)
 	
-	weight_m = w_m_t / (w_m_t + w_r_t)
-	weight_r = w_r_t / (w_m_t + w_r_t)
+    weight_m = w_m_t / (w_m_t + w_r_t)
+    weight_r = w_r_t / (w_m_t + w_r_t)
 	
-	return weight_m, weight_r
+    return weight_m, weight_r
 	
 
 def transferForest(train, targetID, n_features, max_depth, min_size, n_trees):
