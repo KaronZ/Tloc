@@ -13,7 +13,7 @@ import transferForest as trans
 
 if __name__=='__main__':
     
-    dataSet = rf.loadCSV('/xx/xx.csv') #your file path, the file consists of source domain data and target domian data
+    dataSet , feature_name = rf.loadCSV('/xx/xx.csv') #your file path, the file consists of source domain data and target domian data
     rf.column_to_float(dataSet)
     targetID = 'xxxx' #specifiy the target domain  ID
     
@@ -27,7 +27,7 @@ if __name__=='__main__':
     n_trees = 100
     
     #cross validation
-    folds=spiltDataSet(dataSet, n_folds)
+    folds = rf.spiltDataSet(dataSet, n_folds)
     for fold in folds:
         train_set = folds[:]  
         train_set = sum(train_set,[]) 
@@ -42,7 +42,7 @@ if __name__=='__main__':
         
         #====================train and test a transfer forest regression model=========================================      
         # train a transfer forest
-        transfer_forest = trans.transferForest(train_set, targetID, n_features, max_depth, min_size, n_trees)
+        transfer_forest = trans.transferForest(train_set, targetID, n_features, max_depth, min_size, n_trees, feature_name)
         
         # make predictions test data
         predict_values = trans.transfer_forest_predict(transfer_forest, test_set)
