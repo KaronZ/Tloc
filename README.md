@@ -24,3 +24,7 @@ You must ensure that source data and target data are in a data file.
 ### Notice--train a transfer forest
 Import **RF** and **transferForest** modules in your code (See details in run_Example.py). <br>
 Specify the target domian ID when initializing. <br>
+
+## Version
+More functions of Tloc are coming soon. <br>
+
