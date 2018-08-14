@@ -35,7 +35,7 @@ def weight_loss(w_m, w_r, target, feature_mtl, value_mtl, value_str):
 def transferForest(train, targetID, n_features, max_depth, min_size, n_trees):
     transfer_trees =[]
     
-    train = pd.DataFrame(train.sort_values(by="BS_ID"))
+     train = pd.DataFrame(train, columns = feature_name)
     
     group_list = list(train.iloc[:,0]) # The default first column is the primary base station identifier
     group_list = sorted(group_list)
