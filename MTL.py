@@ -25,18 +25,13 @@ def covarite_loss(source_list, target, feature_list, value_list):
     split_dict = {}
     
     for feature, value in zip(feature_list, value_list):
-        #print (feature)
-        #print (value)
-        
+     
         split_dict[feature]= 0
         i = 0
         
         while i < source_num:
             sub_source = source_list[i]
-            
-            #print (target)
-            #print (type(target))
-            
+          
             target_feature = target.iloc[:, feature]
             source_feature = sub_source.iloc[:, feature]
             mean_t = np.mean(target_feature)
@@ -63,9 +58,6 @@ def mmd(source, target, feature):
         else:
             source_x = pd.DataFrame(s)
         k += 1 
-    print (source_x)
-    print (type(source_x))
-    
     
     source_x = source_x.iloc[:,feature].tolist()
     target_x = list(target.iloc[:,feature])
