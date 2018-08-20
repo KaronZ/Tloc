@@ -14,7 +14,7 @@ import transferForest as trans
 
 if __name__=='__main__':
     
-    dataSet, feature = rf.loadCSV('sonar-all-data.csv') #your file path, the file consists of source domain data and target domian data
+    dataSet, feature = rf.loadCSV('../../xxx.csv') #your file path, the file consists of source domain data and target domian data
     rf.column_to_float(dataSet)
 
     targetID = 'xxx' #specifiy the target domain  ID
@@ -32,9 +32,7 @@ if __name__=='__main__':
     folds = rf.spiltDataSet(dataSet, n_folds)
     for fold in folds:
         train_set=folds[:]  
-        #print len(folds)
         train_set=sum(train_set,[]) 
-        #print len(train_set)
         test_set=[]
         for row in fold:
             row_copy=list(row)
