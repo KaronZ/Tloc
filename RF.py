@@ -3,6 +3,8 @@ import csv
 from random import seed
 from random import randrange
 from math import sqrt
+import numpy as np
+import pandas as pd
 
 
 def loadCSV(filename):
@@ -49,7 +51,7 @@ def get_subsample(dataSet, ratio):
     #print len(subdataSet)
     return subdataSet
 
-def data_spilt(dataSet, index, value):
+def data_spilt(dataSet, index, value, is_struct=False):
     left = []
     right = []
     for row in dataSet:
@@ -58,7 +60,8 @@ def data_spilt(dataSet, index, value):
         else:
             right.append(row)
     return left, right
-	
+
+
 def spilt_loss(left, right, class_values=None, is_classification=False):
     loss = 0.0
     if is_classification == True:
@@ -72,23 +75,25 @@ def spilt_loss(left, right, class_values=None, is_classification=False):
                 prop = [row[-1] for row in right].count(class_value) / float(right_size)
                 loss += (prop*(1.0 - prop))
     else:
-        sub_left = list(row[-1] for row in left)
-        sub_right = list(row[-1] for row in right)
-        node_sum = sum(sub_left)+sum(sub_right)
-        averge = node_sum /(len(left)+len(right))
+        reg = 0.0
+        sub_left = list(float(row[-1]) for row in left)
+        sub_right = list(float(row[-1]) for row in right)
+        node_sum = sum(sub_left) + sum(sub_right)
+        
+        average = node_sum /(len(left)+len(right))
         node = list()
         node.append(left)
         node.append(right)
         
         for child in node:
             child_size = len(child)
-            if size == 0:
+            if child_size == 0:
                 continue
-            child_label = list(record[-1] for record in child)
-            for label in group_label:
+            child_label = list(float(record[-1]) for record in child)
+            for label in child_label:
                 reg += (label-average) ** 2
-            reg = float(reg) / size
-            reg = size * reg / number_node
+            reg = float(reg) / child_size
+            reg = child_size * reg / (len(left) + len(right))
             loss += reg
         
     return loss
@@ -105,17 +110,16 @@ def get_best_spilt(dataSet,n_features):
     #print 'features:',features
     for index in features:
         for row in dataSet:
-            left,right = data_spilt(dataSet,index,row[index])
-            loss = spilt_loss(left,right,class_values)
+            left,right = data_spilt(dataSet, index, row[index])
+            loss = spilt_loss(left, right, class_values)
             if loss < b_loss:
-                b_index,b_value,b_loss,b_left,b_right=index,row[index],loss,left,right
-    #print b_loss
-    #print type(b_index)
+                b_index, b_value, b_loss, b_left, b_right = index, row[index], loss, left, right
+ 
     return {'index':b_index,'value':b_value,'left':b_left,'right':b_right}
 
 def get_best_spilt_candidate(dataSet, n_features):
     features = []
-    class_values = list(set(row[-1] for row in dataSet))
+    #class_values = list(set(row[-1] for row in dataSet))
     b_loss_dict = {}
     
     while len(features) < n_features:
@@ -127,7 +131,7 @@ def get_best_spilt_candidate(dataSet, n_features):
         b_loss_dict[index] = 999
         for row in dataSet:
             left,right = data_spilt(dataSet, index, row[index])
-            loss = spilt_loss(left, right, class_values)
+            loss = spilt_loss(left, right)
             if loss < b_loss_dict[index]:
                 b_loss_dict[index] = loss
    
@@ -171,10 +175,12 @@ def build_tree(dataSet, n_features, max_depth, min_size):
     sub_spilt(root, n_features, max_depth, min_size, 1) 
     return root
 
-def build_transfer_tree(dataSet, split_index, split_value, max_depth, min_size):
+def build_transfer_tree(dataSet, n_features, split_index, split_value, max_depth, min_size):
+    dataSet = np.array(dataSet) #np.ndarray()
+    dataSet = dataSet.tolist() #list
     left, right = data_spilt(dataSet, split_index, split_value)
     root = {'index':split_index,'value':split_value,'left':left,'right':right}
-    sub_spilt(root,n_features, max_depth, min_size, 1) 
+    sub_spilt(root, n_features, max_depth, min_size, 1) 
     return root
 
 def predict(tree, row):
@@ -191,7 +197,7 @@ def predict(tree, row):
             return tree['right']
 
 def bagging_predict(trees, row, isclassification=False):
-    predictions = [predict(tree, row) for tree in trees]  
+    predictions = [float(predict(tree, row)) for tree in trees]  
     if isclassification:
         return max(set(predictions), key=predictions.count)
     else:
@@ -201,8 +207,8 @@ def bagging_predict(trees, row, isclassification=False):
 def random_forest(train, test, ratio, n_features, max_depth, min_size, n_trees):
     trees = []
     for i in range(n_trees):
-        train = get_subsample(train,ratio)
-        tree = build_tree(train,n_features,max_depth,min_size)
+        train = get_subsample(train, ratio)
+        tree = build_tree(train, n_features, max_depth, min_size)
         #print 'tree %d: '%i,tree
         trees.append(tree)
     #predict_values = [predict(trees,row) for row in test]
@@ -220,11 +226,10 @@ def accuracy(predict_values, actual, is_classification=False):
         score = correct/float(len(actual))
     else:
         for i in range(len(actual)):
-            error = abs(actual[i] - predict_values[i])
+            error = abs(float(actual[i]) - float(predict_values[i]))
             correct += error
         score = np.median(correct)
     return score
-
             
         
 
