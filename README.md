@@ -22,7 +22,7 @@ The first column is the domain IDs of the data, and the last column is the groun
 You must ensure that source data and target data are in a data file.
 
 ### Notice--train a transfer forest
-Import **RF** and **transferForest** modules in your code (See details in run_Example.py). <br>
+Import **RF** and **transferForest** modules in your code (See details in **run_Example.py**). <br>
 Specify the target domian ID when initializing. <br>
 
 ## Version
