@@ -228,7 +228,7 @@ def accuracy(predict_values, actual, is_classification=False):
         for i in range(len(actual)):
             error = abs(float(actual[i]) - float(predict_values[i]))
             correct += error
-        score = np.median(correct)
+        score = correct/float(len(actual))
     return score
             
         
